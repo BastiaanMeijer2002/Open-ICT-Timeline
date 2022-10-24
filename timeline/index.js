@@ -8,18 +8,21 @@ class Timeline {
     createDot (index) {
         var dot = document.createElement('div');
         var container = document.createElement('div');
+        container.style.display = 'flex';
+        container.style.flexDirection = 'column';
 
         if (index % 2 === 0) {
-            container.appendChild(this.createFeedbackTree());
-            dot.style = 'min-height: 25px;min-width: 25px;background-color: orange;border-radius: 50%;margin-left: 0;margin-right: 0;'
+            container.appendChild(this.createBranches(1, index));
+            dot.style = 'height: 40px;width: 40px;background-color: orange;border-radius: 50%;margin-left: 0.75rem;margin-right: 0.75rem;'
             dot.className = 'dot';
             container.appendChild(dot);
         } else {
-            dot.style = 'min-height: 25px;min-width: 25px;background-color: orange;border-radius: 50%;margin-left: 0;margin-right: 0;'
+            dot.style = 'height: 40px;width: 40px;background-color: orange;border-radius: 50%;margin-left: 0.75rem;margin-right: 0.75rem;'
             dot.className = 'dot';
             container.style = 'margin-top: 3.15rem;'
             container.appendChild(dot);
-            container.appendChild(this.createFeedbackTree());
+            let branches = this.createBranches(1, index);
+            container.appendChild(branches);
         }
         return container;
     }
@@ -33,7 +36,7 @@ class Timeline {
 
     createLine () {
         var line = document.createElement('div');
-        line.style = 'height: 1px;background: black;min-width: 15%; margin-left: 0;margin-right: 0; margin-top: 3.75rem;'
+        line.style = 'height: 1px;background: black;min-width: 35%; margin-left: 0;margin-right: 0; margin-top: 4.25rem;'
         return line;
     }
 
@@ -43,14 +46,119 @@ class Timeline {
         return line;
     }
 
-    createFeedbackTree (arrayLength) {
-        var tree = document.createElement('div');
-        tree.appendChild(this.createVerticalLine());
 
-        for (let i=0; i<arrayLength; i++) {
+    createBranches (amount, index) {
+        let branches = document.createElement('div');
+        // branches.style.display = 'flex';
+        // branches.style.flexDirection = 'row';
+        branches.style = 'display:flex; flex-direction:row; position: relative; right: 9%;'
+    
+        if (index % 2 !== 0){
+            switch (amount) {
+                case 1:
+                    branches.appendChild(this.createVerticalLine());
+                    branches.style.marginLeft = 25;
+                    break;
+                case 2:
+                    branches.appendChild(this.createRotatedLine(15));
+                    branches.appendChild(this.createRotatedLine(-15));
+                    branches.style.marginLeft = 17.5;
+                    break;
+                case 3:
+                    for (let i=0; i<amount; i++) {
+                        if (i===0) {
+                            branches.appendChild(this.createRotatedLine(28));
+                        } else if (i===1) {
+                            branches.appendChild(this.createVerticalLine());
+                        } else {
+                            branches.appendChild(this.createRotatedLine(-28));
+                        }
+                    }
+                    branches.style.marginLeft = 10;
+                    break;
+                case 4:
+                for (let i=0; i<amount; i++) {
+                    if (i===0) {
+                        branches.appendChild(this.createRotatedLine(15));
+                    } else if (i===1) {
+                        let line = this.createRotatedLine(5);
+                        line.style.marginTop = '10%';
+                        branches.appendChild(line);
+                    } else if (i===2) {
+                        let line = this.createRotatedLine(-5);
+                        line.style.marginTop = '10%';
+                        branches.appendChild(line);
+                    } else {
+                        branches.appendChild(this.createRotatedLine(-15));
+                    }
+                }
+                branches.style.marginLeft = 2.5;
+                break;
+            }
+        } else {
+            switch (amount) {
+                case 1:
+                    branches.appendChild(this.createVerticalLine());
+                    branches.style.marginLeft = 25;
+                    break;
+                case 2:
+                    branches.appendChild(this.createRotatedLine(-15));
+                    branches.appendChild(this.createRotatedLine(15));
+                    branches.style.marginLeft = 17.5;
+                    break;
+                case 3:
+                    for (let i=0; i<amount; i++) {
+                        if (i===0) {
+                            branches.appendChild(this.createRotatedLine(-28));
+                        } else if (i===1) {
+                            branches.appendChild(this.createVerticalLine());
+                        } else {
+                            branches.appendChild(this.createRotatedLine(28));
+                        }
+                    }
+                    branches.style.marginLeft = 10;
+                    break;
+                case 4:
+                    for (let i=0; i<amount; i++) {
+                        if (i===0) {
+                            branches.appendChild(this.createRotatedLine(-15));
+                        } else if (i===1) {
+                            let line = this.createRotatedLine(-5);
+                            // line.style.height = '90%';
+                            line.style.marginTop = '-10%';
+                            branches.appendChild(line);
+                        } else if (i===2) {
+                            let line = this.createRotatedLine(5);
+                            // line.style.height = '90%'
+                            line.style.marginTop = '-10%';
+                            branches.appendChild(line);
+                        } else {
+                            branches.appendChild(this.createRotatedLine(15));
+                        }
+                    }
+                    branches.style.marginLeft = 2.5;
+                    break;
+
+            }
+            
+
             
         }
-        return tree;
+
+
+        return branches;
+
+    } 
+
+    createRotatedLine (degrees) {
+        let line = this.createVerticalLine();
+
+        line.style.mozTransform    = 'rotate('+degrees+'deg)';
+        line.style.msTransform     = 'rotate('+degrees+'deg)';
+        line.style.oTransform      = 'rotate('+degrees+'deg)';
+        line.style.transform       = 'rotate('+degrees+'deg)';
+        
+        return line;
     }
 
     build () {
@@ -72,6 +180,6 @@ class Timeline {
 
 
 function generateTimeline(amount_of_products) {
-    const timeline = new Timeline(amount_of_products)
+    const timeline = new Timeline(amount_of_products);
     timeline.build();
 }

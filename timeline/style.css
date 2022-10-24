@@ -3,7 +3,7 @@
     flex-direction: row;
     width: 500px;
     overflow-x: auto;
-    max-height: 40%;
+    max-height: 100%;
 
 }
 
