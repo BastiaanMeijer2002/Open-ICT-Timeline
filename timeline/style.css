@@ -1,0 +1,12 @@
+#timelineContainer {
+    display: flex;
+    flex-direction: row;
+    width: 500px;
+    overflow-x: auto;
+    max-height: 40%;
+
+}
+
+button {
+    margin-top: 30px;
+}
