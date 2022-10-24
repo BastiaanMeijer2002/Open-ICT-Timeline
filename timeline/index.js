@@ -12,7 +12,7 @@ class Timeline {
         container.style.flexDirection = 'column';
 
         if (index % 2 === 0) {
-            container.appendChild(this.createBranches(1, index));
+            container.appendChild(this.createBranches(5, index));
             dot.style = 'height: 40px;width: 40px;background-color: orange;border-radius: 50%;margin-left: 0.75rem;margin-right: 0.75rem;'
             dot.className = 'dot';
             container.appendChild(dot);
@@ -21,7 +21,7 @@ class Timeline {
             dot.className = 'dot';
             container.style = 'margin-top: 3.15rem;'
             container.appendChild(dot);
-            let branches = this.createBranches(1, index);
+            let branches = this.createBranches(5, index);
             container.appendChild(branches);
         }
         return container;
@@ -77,23 +77,48 @@ class Timeline {
                     branches.style.marginLeft = 10;
                     break;
                 case 4:
-                for (let i=0; i<amount; i++) {
-                    if (i===0) {
-                        branches.appendChild(this.createRotatedLine(15));
-                    } else if (i===1) {
-                        let line = this.createRotatedLine(5);
-                        line.style.marginTop = '10%';
-                        branches.appendChild(line);
-                    } else if (i===2) {
-                        let line = this.createRotatedLine(-5);
-                        line.style.marginTop = '10%';
-                        branches.appendChild(line);
-                    } else {
-                        branches.appendChild(this.createRotatedLine(-15));
+                    for (let i=0; i<amount; i++) {
+                        if (i===0) {
+                            branches.appendChild(this.createRotatedLine(15));
+                        } else if (i===1) {
+                            let line = this.createRotatedLine(5);
+                            line.style.marginTop = '10%';
+                            branches.appendChild(line);
+                        } else if (i===2) {
+                            let line = this.createRotatedLine(-5);
+                            line.style.marginTop = '10%';
+                            branches.appendChild(line);
+                        } else {
+                            branches.appendChild(this.createRotatedLine(-15));
+                        }
                     }
-                }
-                branches.style.marginLeft = 2.5;
-                break;
+                    branches.style.marginLeft = 2.5;
+                    break;
+                case 5:
+                    branches.appendChild(this.createRotatedLine(25));
+
+                    let line = this.createRotatedLine(15);
+                    line.style.marginTop = '10%';
+                    branches.appendChild(line);
+
+
+                    line = this.createRotatedLine(5);
+                    line.style.marginTop = '15%';
+                    branches.appendChild(line);
+
+                    line = this.createRotatedLine(-5);
+                    line.style.marginTop = '15%';
+                    branches.appendChild(line);
+
+                    line = this.createRotatedLine(-15);
+                    line.style.marginTop = '10%';
+                    branches.appendChild(line);
+
+                    branches.appendChild(this.createRotatedLine(-25));
+
+                    branches.style.marginLeft = -7.5;
+                    break;
+
             }
         } else {
             switch (amount) {
@@ -138,6 +163,31 @@ class Timeline {
                     }
                     branches.style.marginLeft = 2.5;
                     break;
+                case 5:
+                    branches.appendChild(this.createRotatedLine(-25));
+
+                    let line = this.createRotatedLine(-15);
+                    line.style.marginTop = '-10%';
+                    branches.appendChild(line);
+
+
+                    line = this.createRotatedLine(-5);
+                    line.style.marginTop = '-15%';
+                    branches.appendChild(line);
+
+                    line = this.createRotatedLine(5);
+                    line.style.marginTop = '-15%';
+                    branches.appendChild(line);
+
+                    line = this.createRotatedLine(15);
+                    line.style.marginTop = '-10%';
+                    branches.appendChild(line);
+
+                    branches.appendChild(this.createRotatedLine(25));
+
+                    branches.style.marginLeft = -7.5;
+                    break;
+                
 
             }
             
@@ -162,7 +212,9 @@ class Timeline {
     }
 
     build () {
-        this.container.appendChild(this.createDot());
+        let temp = this.createDot();
+        temp.style.marginLeft = '10%';
+        this.container.appendChild(temp);
 
         for (var i=0; i<this.amount-1; i++) {
             this.container.appendChild(this.createLine());
@@ -171,7 +223,6 @@ class Timeline {
 
         this.container.appendChild(this.createLine());
         this.container.appendChild(this.createPlusDot());
-        // this.createFeedbackTree();
     }
 
     getContainer () {return document.getElementById('timelineContainer')}
